@@ -1,0 +1,64 @@
+entity Category {
+	categoryName String
+}
+entity GiftItem {
+	giftName String,
+    descripption String,
+    unitPrice Double,
+    avalibleQuantity Integer
+}
+entity Image {
+	imagepath String
+}
+
+entity GiftOrder {
+	descripption String,
+}
+entity Cart {
+	descripption String,
+}
+entity User {
+	userName String,
+    email String
+    password String
+    role Role
+}
+entity Employee {
+	name String,
+    age Double
+    basicSallary Double,
+    employmentDate LocalDate,
+    numberOfDependants Integer
+}
+
+entity Client {
+	name String,
+    addressLineOne String,
+    addressLineTwo String,
+    city String,
+    postalCode Double
+}
+
+
+enum Role {
+    ROLE_ADMIN, 
+    ROLE_CLIENT,
+    ROLE_DB_ADMIN,
+    ROLE_EMPLOYEE,
+    ROLE_BM
+}
+
+relationship OneToMany {
+  Category to GiftItem{category},
+}
+relationship OneToOne {
+  Employee{user} to User,
+  Client{user} to User,
+  GiftOrder{user} to User,
+}
+
+relationship ManyToMany {
+	 Cart{giftItems} to GiftItem{cart},
+     GiftOrder{giftItems} to GiftItem{order}
+}
+
