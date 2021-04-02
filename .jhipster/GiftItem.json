@@ -1,0 +1,53 @@
+{
+  "name": "GiftItem",
+  "fields": [
+    {
+      "fieldName": "giftName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "descripption",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "unitPrice",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "avalibleQuantity",
+      "fieldType": "Integer"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "category",
+      "otherEntityRelationshipName": "giftItem",
+      "relationshipName": "category"
+    },
+    {
+      "relationshipType": "many-to-many",
+      "otherEntityName": "cart",
+      "otherEntityRelationshipName": "giftItems",
+      "relationshipName": "cart",
+      "ownerSide": false
+    },
+    {
+      "relationshipType": "many-to-many",
+      "otherEntityName": "giftOrder",
+      "otherEntityRelationshipName": "giftItems",
+      "relationshipName": "order",
+      "ownerSide": false
+    }
+  ],
+  "entityTableName": "gift_item",
+  "dto": "no",
+  "pagination": "no",
+  "service": "no",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": "*",
+  "changelogDate": "20210402135828"
+}

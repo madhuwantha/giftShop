@@ -42,7 +42,9 @@
     "jwtSecretKey": "ZThiYmVlNGQ4YTg4MmM0NjgyYjc5NTYwYjRmOGJhZGJkMTk4ZGMyNDk0ZDlmMTVhZDEyNWUyYjcwNWFhN2FlNjVhNGE3Y2E5MDI1M2ViNmFlMjlhYWFmNzg5MDFjZmI3NGRmNDhiYmIyNDMwNTJhOTczOGQ3YTVmMTEyM2VmMGU=",
     "clientTheme": "none",
     "clientThemeVariant": "",
-    "reactive": false
+    "reactive": false,
+    "entities": ["Category", "GiftItem", "Image", "GiftOrder", "Cart", "Employee", "Client"],
+    "lastLiquibaseTimestamp": 1617371913000
   },
   "git-provider": "GitHub",
   "git-company": "madhuwantha",

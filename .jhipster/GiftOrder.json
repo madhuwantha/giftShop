@@ -1,0 +1,35 @@
+{
+  "name": "GiftOrder",
+  "fields": [
+    {
+      "fieldName": "descripption",
+      "fieldType": "String"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "user",
+      "otherEntityRelationshipName": "giftOrder",
+      "relationshipName": "user",
+      "ownerSide": true
+    },
+    {
+      "relationshipType": "many-to-many",
+      "otherEntityName": "giftItem",
+      "otherEntityRelationshipName": "order",
+      "relationshipName": "giftItems",
+      "ownerSide": true
+    }
+  ],
+  "entityTableName": "gift_order",
+  "dto": "no",
+  "pagination": "no",
+  "service": "no",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": "*",
+  "changelogDate": "20210402135830"
+}

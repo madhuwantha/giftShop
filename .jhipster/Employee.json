@@ -1,0 +1,44 @@
+{
+  "name": "Employee",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "age",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "basicSallary",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "employmentDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "numberOfDependants",
+      "fieldType": "Integer"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "user",
+      "otherEntityRelationshipName": "employee",
+      "relationshipName": "user",
+      "ownerSide": true
+    }
+  ],
+  "entityTableName": "employee",
+  "dto": "no",
+  "pagination": "no",
+  "service": "no",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": "*",
+  "changelogDate": "20210402135832"
+}

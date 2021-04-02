@@ -1,0 +1,27 @@
+{
+  "name": "Category",
+  "fields": [
+    {
+      "fieldName": "categoryName",
+      "fieldType": "String"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "giftItem",
+      "otherEntityRelationshipName": "category",
+      "relationshipName": "giftItem"
+    }
+  ],
+  "entityTableName": "category",
+  "dto": "no",
+  "pagination": "no",
+  "service": "no",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": "*",
+  "changelogDate": "20210402135827"
+}
