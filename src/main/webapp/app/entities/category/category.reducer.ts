@@ -14,6 +14,8 @@ export const ACTION_TYPES = {
   PARTIAL_UPDATE_CATEGORY: 'category/PARTIAL_UPDATE_CATEGORY',
   DELETE_CATEGORY: 'category/DELETE_CATEGORY',
   RESET: 'category/RESET',
+  SELECT_CATEGORY: 'category/SELECT_CATEGORY',
+  GET_SELECT_CATEGORY: 'category/GET_SELECT_CATEGORY',
 };
 
 const initialState = {
@@ -23,6 +25,7 @@ const initialState = {
   entity: defaultValue,
   updating: false,
   updateSuccess: false,
+  selectedCategory: null,
 };
 
 export type CategoryState = Readonly<typeof initialState>;
@@ -94,6 +97,13 @@ export default (state: CategoryState = initialState, action): CategoryState => {
       return {
         ...initialState,
       };
+    case ACTION_TYPES.SELECT_CATEGORY:
+      return {
+        ...state,
+        selectedCategory: action.payload,
+      };
+    case ACTION_TYPES.GET_SELECT_CATEGORY:
+      return state;
     default:
       return state;
   }
@@ -102,6 +112,11 @@ export default (state: CategoryState = initialState, action): CategoryState => {
 const apiUrl = 'api/categories';
 
 // Actions
+
+export const selectCategory: any = (id: number) => ({
+  type: ACTION_TYPES.SELECT_CATEGORY,
+  payload: id,
+});
 
 export const getEntities: ICrudGetAllAction<ICategory> = (page, size, sort) => ({
   type: ACTION_TYPES.FETCH_CATEGORY_LIST,

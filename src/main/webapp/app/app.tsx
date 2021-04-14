@@ -5,7 +5,7 @@ import 'app/config/dayjs.ts';
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Card } from 'reactstrap';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router, Redirect } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import { hot } from 'react-hot-loader';
 
@@ -18,6 +18,7 @@ import { hasAnyAuthority } from 'app/shared/auth/private-route';
 import ErrorBoundary from 'app/shared/error/error-boundary';
 import { AUTHORITIES } from 'app/config/constants';
 import AppRoutes from 'app/routes';
+import ClientHeader from 'app/modules/client/header/client-header';
 
 const baseHref = document.querySelector('base').getAttribute('href').replace(/\/$/, '');
 
@@ -29,21 +30,35 @@ export const App = (props: IAppProps) => {
     props.getProfile();
   }, []);
 
-  const paddingTop = '60px';
+  const paddingTop = '0px';
   return (
     <Router basename={baseHref}>
       <div className="app-container" style={{ paddingTop }}>
         <ToastContainer position={toast.POSITION.TOP_LEFT} className="toastify-container" toastClassName="toastify-toast" />
         <ErrorBoundary>
-          <Header
-            isAuthenticated={props.isAuthenticated}
-            isAdmin={props.isAdmin}
-            ribbonEnv={props.ribbonEnv}
-            isInProduction={props.isInProduction}
-            isOpenAPIEnabled={props.isOpenAPIEnabled}
-          />
+          {props.isAdmin ? (
+            <>
+              <Header
+                isAuthenticated={props.isAuthenticated}
+                isAdmin={props.isAdmin}
+                ribbonEnv={props.ribbonEnv}
+                isInProduction={props.isInProduction}
+                isOpenAPIEnabled={props.isOpenAPIEnabled}
+              />
+            </>
+          ) : (
+            <>
+              <ClientHeader
+                isAuthenticated={props.isAuthenticated}
+                isAdmin={props.isAdmin}
+                ribbonEnv={props.ribbonEnv}
+                isInProduction={props.isInProduction}
+                isOpenAPIEnabled={props.isOpenAPIEnabled}
+              />
+            </>
+          )}
         </ErrorBoundary>
-        <div className="container-fluid view-container" id="app-view-container">
+        <div style={{ padding: 0 }} className="container-fluid view-container" id="app-view-container">
           <Card className="jh-card">
             <ErrorBoundary>
               <AppRoutes />

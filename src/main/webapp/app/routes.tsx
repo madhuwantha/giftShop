@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch } from 'react-router-dom';
+import { Redirect, Switch } from 'react-router-dom';
 import Loadable from 'react-loadable';
 
 import Login from 'app/modules/login/login';
@@ -20,6 +20,11 @@ const Account = Loadable({
   loading: () => <div>loading ...</div>,
 });
 
+const Client = Loadable({
+  loader: () => import(/* webpackChunkName: "account" */ 'app/modules/client'),
+  loading: () => <div>loading ...</div>,
+});
+
 const Admin = Loadable({
   loader: () => import(/* webpackChunkName: "administration" */ 'app/modules/administration'),
   loading: () => <div>loading ...</div>,
@@ -37,8 +42,10 @@ const Routes = () => {
         <ErrorBoundaryRoute path="/account/reset/finish/:key?" component={PasswordResetFinish} />
         <PrivateRoute path="/admin" component={Admin} hasAnyAuthorities={[AUTHORITIES.ADMIN]} />
         <PrivateRoute path="/account" component={Account} hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]} />
-        <ErrorBoundaryRoute path="/" exact component={Home} />
+        <ErrorBoundaryRoute path="/shop" component={Client} />
         <PrivateRoute path="/" component={Entities} hasAnyAuthorities={[AUTHORITIES.USER]} />
+        <Redirect from="/" to="/shop/home" />
+        <ErrorBoundaryRoute path="/" exact component={Home} />
         <ErrorBoundaryRoute component={PageNotFound} />
       </Switch>
     </div>

@@ -121,7 +121,7 @@ export const GiftItemUpdate = (props: IGiftItemUpdateProps) => {
                   {categories
                     ? categories.map(otherEntity => (
                         <option value={otherEntity.id} key={otherEntity.id}>
-                          {otherEntity.id}
+                          {otherEntity.categoryName}
                         </option>
                       ))
                     : null}
