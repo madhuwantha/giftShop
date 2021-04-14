@@ -43,6 +43,7 @@ export const Cart = (props: ICartProps) => {
               <tr>
                 <th>ID</th>
                 <th>Descripption</th>
+                <th>User</th>
                 <th>Gift Items</th>
                 <th />
               </tr>
@@ -56,6 +57,7 @@ export const Cart = (props: ICartProps) => {
                     </Button>
                   </td>
                   <td>{cart.descripption}</td>
+                  <td>{cart.user ? cart.user.id : ''}</td>
                   <td>
                     {cart.giftItems
                       ? cart.giftItems.map((val, j) => (

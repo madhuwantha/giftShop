@@ -20,13 +20,6 @@
   ],
   "relationships": [
     {
-      "relationshipType": "one-to-one",
-      "otherEntityName": "user",
-      "otherEntityRelationshipName": "giftItem",
-      "relationshipName": "user",
-      "ownerSide": true
-    },
-    {
       "relationshipType": "many-to-one",
       "otherEntityName": "category",
       "otherEntityRelationshipName": "giftItem",

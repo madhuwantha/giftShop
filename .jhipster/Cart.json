@@ -8,6 +8,13 @@
   ],
   "relationships": [
     {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "user",
+      "otherEntityRelationshipName": "cart",
+      "relationshipName": "user",
+      "ownerSide": true
+    },
+    {
       "relationshipType": "many-to-many",
       "otherEntityName": "giftItem",
       "otherEntityRelationshipName": "cart",

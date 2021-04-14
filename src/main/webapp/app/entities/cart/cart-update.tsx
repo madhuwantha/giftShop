@@ -7,6 +7,8 @@ import { translate } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
 
+import { IUser } from 'app/shared/model/user.model';
+import { getUsers } from 'app/modules/administration/user-management/user-management.reducer';
 import { IGiftItem } from 'app/shared/model/gift-item.model';
 import { getEntities as getGiftItems } from 'app/entities/gift-item/gift-item.reducer';
 import { getEntity, updateEntity, createEntity, reset } from './cart.reducer';
@@ -20,7 +22,7 @@ export const CartUpdate = (props: ICartUpdateProps) => {
   const [idsgiftItems, setIdsgiftItems] = useState([]);
   const [isNew] = useState(!props.match.params || !props.match.params.id);
 
-  const { cartEntity, giftItems, loading, updating } = props;
+  const { cartEntity, users, giftItems, loading, updating } = props;
 
   const handleClose = () => {
     props.history.push('/cart');
@@ -33,6 +35,7 @@ export const CartUpdate = (props: ICartUpdateProps) => {
       props.getEntity(props.match.params.id);
     }
 
+    props.getUsers();
     props.getGiftItems();
   }, []);
 
@@ -48,6 +51,7 @@ export const CartUpdate = (props: ICartUpdateProps) => {
         ...cartEntity,
         ...values,
         giftItems: mapIdList(values.giftItems),
+        user: users.find(it => it.id.toString() === values.userId.toString()),
       };
 
       if (isNew) {
@@ -84,6 +88,19 @@ export const CartUpdate = (props: ICartUpdateProps) => {
                   Descripption
                 </Label>
                 <AvField id="cart-descripption" data-cy="descripption" type="text" name="descripption" />
+              </AvGroup>
+              <AvGroup>
+                <Label for="cart-user">User</Label>
+                <AvInput id="cart-user" data-cy="user" type="select" className="form-control" name="userId">
+                  <option value="" key="0" />
+                  {users
+                    ? users.map(otherEntity => (
+                        <option value={otherEntity.id} key={otherEntity.id}>
+                          {otherEntity.id}
+                        </option>
+                      ))
+                    : null}
+                </AvInput>
               </AvGroup>
               <AvGroup>
                 <Label for="cart-giftItems">Gift Items</Label>
@@ -125,6 +142,7 @@ export const CartUpdate = (props: ICartUpdateProps) => {
 };
 
 const mapStateToProps = (storeState: IRootState) => ({
+  users: storeState.userManagement.users,
   giftItems: storeState.giftItem.entities,
   cartEntity: storeState.cart.entity,
   loading: storeState.cart.loading,
@@ -133,6 +151,7 @@ const mapStateToProps = (storeState: IRootState) => ({
 });
 
 const mapDispatchToProps = {
+  getUsers,
   getGiftItems,
   getEntity,
   updateEntity,
