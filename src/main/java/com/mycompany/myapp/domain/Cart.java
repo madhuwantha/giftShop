@@ -22,13 +22,17 @@ public class Cart implements Serializable {
     @Column(name = "descripption")
     private String descripption;
 
+    @OneToOne
+    @JoinColumn(unique = true)
+    private User user;
+
     @ManyToMany
     @JoinTable(
         name = "rel_cart__gift_items",
         joinColumns = @JoinColumn(name = "cart_id"),
         inverseJoinColumns = @JoinColumn(name = "gift_items_id")
     )
-    @JsonIgnoreProperties(value = { "user", "category", "carts", "orders" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "category", "carts", "orders" }, allowSetters = true)
     private Set<GiftItem> giftItems = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -56,6 +60,19 @@ public class Cart implements Serializable {
 
     public void setDescripption(String descripption) {
         this.descripption = descripption;
+    }
+
+    public User getUser() {
+        return this.user;
+    }
+
+    public Cart user(User user) {
+        this.setUser(user);
+        return this;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Set<GiftItem> getGiftItems() {

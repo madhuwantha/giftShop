@@ -31,16 +31,12 @@ public class GiftItem implements Serializable {
     @Column(name = "avalible_quantity")
     private Integer avalibleQuantity;
 
-    @OneToOne
-    @JoinColumn(unique = true)
-    private User user;
-
     @ManyToOne
     @JsonIgnoreProperties(value = { "giftItems" }, allowSetters = true)
     private Category category;
 
     @ManyToMany(mappedBy = "giftItems")
-    @JsonIgnoreProperties(value = { "giftItems" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "user", "giftItems" }, allowSetters = true)
     private Set<Cart> carts = new HashSet<>();
 
     @ManyToMany(mappedBy = "giftItems")
@@ -111,19 +107,6 @@ public class GiftItem implements Serializable {
 
     public void setAvalibleQuantity(Integer avalibleQuantity) {
         this.avalibleQuantity = avalibleQuantity;
-    }
-
-    public User getUser() {
-        return this.user;
-    }
-
-    public GiftItem user(User user) {
-        this.setUser(user);
-        return this;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public Category getCategory() {

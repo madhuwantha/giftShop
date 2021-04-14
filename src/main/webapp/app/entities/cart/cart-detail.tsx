@@ -30,6 +30,8 @@ export const CartDetail = (props: ICartDetailProps) => {
             <span id="descripption">Descripption</span>
           </dt>
           <dd>{cartEntity.descripption}</dd>
+          <dt>User</dt>
+          <dd>{cartEntity.user ? cartEntity.user.id : ''}</dd>
           <dt>Gift Items</dt>
           <dd>
             {cartEntity.giftItems
