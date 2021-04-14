@@ -13,6 +13,7 @@ export const ACTION_TYPES = {
   UPDATE_CATEGORY: 'category/UPDATE_CATEGORY',
   PARTIAL_UPDATE_CATEGORY: 'category/PARTIAL_UPDATE_CATEGORY',
   DELETE_CATEGORY: 'category/DELETE_CATEGORY',
+  SELECT_CATEGORY: 'category/SELECT_CATEGORY',
   RESET: 'category/RESET',
 };
 
@@ -23,9 +24,15 @@ const initialState = {
   entity: defaultValue,
   updating: false,
   updateSuccess: false,
+  selectedCategory: null,
 };
 
 export type CategoryState = Readonly<typeof initialState>;
+
+export const selectCategory: any = (id: number) => ({
+  type: ACTION_TYPES.SELECT_CATEGORY,
+  payload: id,
+});
 
 // Reducer
 
@@ -93,6 +100,11 @@ export default (state: CategoryState = initialState, action): CategoryState => {
     case ACTION_TYPES.RESET:
       return {
         ...initialState,
+      };
+    case ACTION_TYPES.SELECT_CATEGORY:
+      return {
+        ...state,
+        selectedCategory: action.payload,
       };
     default:
       return state;
