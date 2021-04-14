@@ -13,7 +13,6 @@ export const ACTION_TYPES = {
   UPDATE_GIFTITEM: 'giftItem/UPDATE_GIFTITEM',
   PARTIAL_UPDATE_GIFTITEM: 'giftItem/PARTIAL_UPDATE_GIFTITEM',
   DELETE_GIFTITEM: 'giftItem/DELETE_GIFTITEM',
-  SELECT_GIFTITEM: 'giftItem/SELECT_GIFTITEM',
   RESET: 'giftItem/RESET',
 };
 
@@ -24,7 +23,6 @@ const initialState = {
   entity: defaultValue,
   updating: false,
   updateSuccess: false,
-  selectedGiftItem: defaultValue,
 };
 
 export type GiftItemState = Readonly<typeof initialState>;
@@ -92,11 +90,6 @@ export default (state: GiftItemState = initialState, action): GiftItemState => {
         updateSuccess: true,
         entity: {},
       };
-    case ACTION_TYPES.SELECT_GIFTITEM:
-      return {
-        ...state,
-        selectedGiftItem: action.payload,
-      };
     case ACTION_TYPES.RESET:
       return {
         ...initialState,
@@ -109,13 +102,6 @@ export default (state: GiftItemState = initialState, action): GiftItemState => {
 const apiUrl = 'api/gift-items';
 
 // Actions
-
-export const selectGiftIem = (giftItem: IGiftItem) => {
-  return {
-    type: ACTION_TYPES.SELECT_GIFTITEM,
-    payload: giftItem,
-  };
-};
 
 export const getEntities: ICrudGetAllAction<IGiftItem> = (page, size, sort) => ({
   type: ACTION_TYPES.FETCH_GIFTITEM_LIST,

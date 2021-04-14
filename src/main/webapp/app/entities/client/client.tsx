@@ -59,7 +59,6 @@ export const Client = (props: IClientProps) => {
                       {client.id}
                     </Button>
                   </td>
-                  <td>{client.id}</td>
                   <td>{client.name}</td>
                   <td>{client.addressLineOne}</td>
                   <td>{client.addressLineTwo}</td>

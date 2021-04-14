@@ -41,7 +41,7 @@ export const GiftOrder = (props: IGiftOrderProps) => {
           <Table responsive>
             <thead>
               <tr>
-                <th>No</th>
+                <th>ID</th>
                 <th>Descripption</th>
                 <th>User</th>
                 <th>Gift Items</th>
@@ -56,14 +56,13 @@ export const GiftOrder = (props: IGiftOrderProps) => {
                       {giftOrder.id}
                     </Button>
                   </td>
-                  {/*<td>{giftOrder.id}</td>*/}
                   <td>{giftOrder.descripption}</td>
-                  <td>{giftOrder.user ? giftOrder.user.firstName : ''}</td>
+                  <td>{giftOrder.user ? giftOrder.user.id : ''}</td>
                   <td>
                     {giftOrder.giftItems
                       ? giftOrder.giftItems.map((val, j) => (
                           <span key={j}>
-                            <Link to={`gift-item/${val.id}`}>{val.giftName}</Link>
+                            <Link to={`gift-item/${val.id}`}>{val.id}</Link>
                             {j === giftOrder.giftItems.length - 1 ? '' : ', '}
                           </span>
                         ))

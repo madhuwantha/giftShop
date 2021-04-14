@@ -7,7 +7,7 @@
         Added the constraints for entity Cart.
     -->
     <changeSet id="20210402135831-2" author="jhipster">
-        
+
         <addForeignKeyConstraint baseColumnNames="cart_id"
                                  baseTableName="rel_cart__gift_items"
                                  constraintName="fk_rel_cart__gift_items__cart_id"
@@ -19,6 +19,5 @@
                                  constraintName="fk_rel_cart__gift_items__gift_items_id"
                                  referencedColumnNames="id"
                                  referencedTableName="gift_item"/>
-        
     </changeSet>
 </databaseChangeLog>

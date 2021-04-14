@@ -54,7 +54,6 @@ export const Image = (props: IImageProps) => {
                       {image.id}
                     </Button>
                   </td>
-                  <td>{image.id}</td>
                   <td>{image.imagepath}</td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">

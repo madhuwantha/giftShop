@@ -41,11 +41,12 @@ export const GiftItem = (props: IGiftItemProps) => {
           <Table responsive>
             <thead>
               <tr>
-                <th>No</th>
+                <th>ID</th>
                 <th>Gift Name</th>
-                <th>Description</th>
+                <th>Descripption</th>
                 <th>Unit Price</th>
-                <th>Available Quantity</th>
+                <th>Avalible Quantity</th>
+                <th>User</th>
                 <th>Category</th>
                 <th />
               </tr>
@@ -58,12 +59,12 @@ export const GiftItem = (props: IGiftItemProps) => {
                       {giftItem.id}
                     </Button>
                   </td>
-                  {/*<td>{giftItem.id}</td>*/}
                   <td>{giftItem.giftName}</td>
                   <td>{giftItem.descripption}</td>
                   <td>{giftItem.unitPrice}</td>
                   <td>{giftItem.avalibleQuantity}</td>
-                  <td>{giftItem.category ? <Link to={`category/${giftItem.category.id}`}>{giftItem.category.categoryName}</Link> : ''}</td>
+                  <td>{giftItem.user ? giftItem.user.id : ''}</td>
+                  <td>{giftItem.category ? <Link to={`category/${giftItem.category.id}`}>{giftItem.category.id}</Link> : ''}</td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`${match.url}/${giftItem.id}`} color="info" size="sm" data-cy="entityDetailsButton">
