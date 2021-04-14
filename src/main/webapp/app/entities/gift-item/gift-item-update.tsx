@@ -7,6 +7,8 @@ import { translate } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
 
+import { IUser } from 'app/shared/model/user.model';
+import { getUsers } from 'app/modules/administration/user-management/user-management.reducer';
 import { ICategory } from 'app/shared/model/category.model';
 import { getEntities as getCategories } from 'app/entities/category/category.reducer';
 import { ICart } from 'app/shared/model/cart.model';
@@ -23,7 +25,7 @@ export interface IGiftItemUpdateProps extends StateProps, DispatchProps, RouteCo
 export const GiftItemUpdate = (props: IGiftItemUpdateProps) => {
   const [isNew] = useState(!props.match.params || !props.match.params.id);
 
-  const { giftItemEntity, categories, carts, giftOrders, loading, updating } = props;
+  const { giftItemEntity, users, categories, carts, giftOrders, loading, updating } = props;
 
   const handleClose = () => {
     props.history.push('/gift-item');
@@ -36,6 +38,7 @@ export const GiftItemUpdate = (props: IGiftItemUpdateProps) => {
       props.getEntity(props.match.params.id);
     }
 
+    props.getUsers();
     props.getCategories();
     props.getCarts();
     props.getGiftOrders();
@@ -52,6 +55,7 @@ export const GiftItemUpdate = (props: IGiftItemUpdateProps) => {
       const entity = {
         ...giftItemEntity,
         ...values,
+        user: users.find(it => it.id.toString() === values.userId.toString()),
         category: categories.find(it => it.id.toString() === values.categoryId.toString()),
       };
 
@@ -115,13 +119,26 @@ export const GiftItemUpdate = (props: IGiftItemUpdateProps) => {
                 />
               </AvGroup>
               <AvGroup>
+                <Label for="gift-item-user">User</Label>
+                <AvInput id="gift-item-user" data-cy="user" type="select" className="form-control" name="userId">
+                  <option value="" key="0" />
+                  {users
+                    ? users.map(otherEntity => (
+                        <option value={otherEntity.id} key={otherEntity.id}>
+                          {otherEntity.id}
+                        </option>
+                      ))
+                    : null}
+                </AvInput>
+              </AvGroup>
+              <AvGroup>
                 <Label for="gift-item-category">Category</Label>
                 <AvInput id="gift-item-category" data-cy="category" type="select" className="form-control" name="categoryId">
                   <option value="" key="0" />
                   {categories
                     ? categories.map(otherEntity => (
                         <option value={otherEntity.id} key={otherEntity.id}>
-                          {otherEntity.categoryName}
+                          {otherEntity.id}
                         </option>
                       ))
                     : null}
@@ -146,6 +163,7 @@ export const GiftItemUpdate = (props: IGiftItemUpdateProps) => {
 };
 
 const mapStateToProps = (storeState: IRootState) => ({
+  users: storeState.userManagement.users,
   categories: storeState.category.entities,
   carts: storeState.cart.entities,
   giftOrders: storeState.giftOrder.entities,
@@ -156,6 +174,7 @@ const mapStateToProps = (storeState: IRootState) => ({
 });
 
 const mapDispatchToProps = {
+  getUsers,
   getCategories,
   getCarts,
   getGiftOrders,

@@ -55,7 +55,6 @@ export const Cart = (props: ICartProps) => {
                       {cart.id}
                     </Button>
                   </td>
-                  <td>{cart.id}</td>
                   <td>{cart.descripption}</td>
                   <td>
                     {cart.giftItems

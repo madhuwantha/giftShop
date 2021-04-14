@@ -54,7 +54,6 @@ export const Category = (props: ICategoryProps) => {
                       {category.id}
                     </Button>
                   </td>
-                  <td>{category.id}</td>
                   <td>{category.categoryName}</td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">

@@ -41,13 +41,13 @@ export const Employee = (props: IEmployeeProps) => {
           <Table responsive>
             <thead>
               <tr>
-                <th>No</th>
+                <th>ID</th>
                 <th>Name</th>
                 <th>Age</th>
                 <th>Basic Sallary</th>
                 <th>Employment Date</th>
                 <th>Number Of Dependants</th>
-                {/*<th>User</th>*/}
+                <th>User</th>
                 <th />
               </tr>
             </thead>
@@ -59,17 +59,16 @@ export const Employee = (props: IEmployeeProps) => {
                       {employee.id}
                     </Button>
                   </td>
-                  {/*<td>{employee.id}</td>*/}
                   <td>{employee.name}</td>
                   <td>{employee.age}</td>
-                  <td>$ {employee.basicSallary}</td>
+                  <td>{employee.basicSallary}</td>
                   <td>
                     {employee.employmentDate ? (
                       <TextFormat type="date" value={employee.employmentDate} format={APP_LOCAL_DATE_FORMAT} />
                     ) : null}
                   </td>
                   <td>{employee.numberOfDependants}</td>
-                  {/*<td>{employee.user ? employee.user.id : ''}</td>*/}
+                  <td>{employee.user ? employee.user.id : ''}</td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`${match.url}/${employee.id}`} color="info" size="sm" data-cy="entityDetailsButton">

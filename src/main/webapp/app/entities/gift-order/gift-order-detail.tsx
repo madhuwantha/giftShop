@@ -31,13 +31,13 @@ export const GiftOrderDetail = (props: IGiftOrderDetailProps) => {
           </dt>
           <dd>{giftOrderEntity.descripption}</dd>
           <dt>User</dt>
-          <dd>{giftOrderEntity.user ? giftOrderEntity.user.firstName : ''}</dd>
+          <dd>{giftOrderEntity.user ? giftOrderEntity.user.id : ''}</dd>
           <dt>Gift Items</dt>
           <dd>
             {giftOrderEntity.giftItems
               ? giftOrderEntity.giftItems.map((val, i) => (
                   <span key={val.id}>
-                    <a>{val.giftName}</a>
+                    <a>{val.id}</a>
                     {giftOrderEntity.giftItems && i === giftOrderEntity.giftItems.length - 1 ? '' : ', '}
                   </span>
                 ))
