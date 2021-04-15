@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { Button } from 'reactstrap';
 import { IGiftItem } from 'app/shared/model/gift-item.model';
 import { selectGiftIem } from 'app/entities/gift-item/gift-item.reducer';
+import { addToCart } from 'app/entities/cart/cart.reducer';
 
 export interface IGftItemCardProps extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> {
   giftItem: IGiftItem;
@@ -12,10 +13,14 @@ export interface IGftItemCardProps extends StateProps, DispatchProps, RouteCompo
 const baseHref = document.querySelector('base').getAttribute('href').replace(/\/$/, '');
 
 const GftItemCard = (props: IGftItemCardProps) => {
-  const { giftItem } = props;
+  const { giftItem, account } = props;
 
   function onProductClick() {
     props.selectGiftIem(giftItem);
+  }
+
+  function onAddToCart() {
+    props.addToCart(giftItem.id, account.id);
   }
 
   return (
@@ -52,7 +57,7 @@ const GftItemCard = (props: IGftItemCardProps) => {
                 <del>$ {giftItem.unitPrice + 50}</del>
               </span>
             </div>
-            <Button style={{ background: '#e72463', border: 'none' }} className="btn product-cart">
+            <Button onClick={() => onAddToCart()} style={{ background: '#e72463', border: 'none' }} className="btn product-cart">
               <span className="menu-text"> Add to Cart</span>
             </Button>
           </div>
@@ -62,10 +67,13 @@ const GftItemCard = (props: IGftItemCardProps) => {
   );
 };
 
-const mapStateToProps = ({ category }: IRootState) => ({});
+const mapStateToProps = ({ category, authentication }: IRootState) => ({
+  account: authentication.account,
+});
 
 const mapDispatchToProps = {
   selectGiftIem,
+  addToCart,
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

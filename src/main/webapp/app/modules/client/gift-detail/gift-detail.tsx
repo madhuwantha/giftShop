@@ -7,9 +7,14 @@ import { RouteComponentProps } from 'react-router-dom';
 export interface IGiftDetailProps extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> {}
 
 import { Button } from 'reactstrap';
+import { addToCart } from 'app/entities/cart/cart.reducer';
 
 const GiftDetail = (props: IGiftDetailProps) => {
-  const { giftItem } = props;
+  const { giftItem, account } = props;
+
+  function onAddToCart() {
+    props.addToCart(giftItem.id, account.id);
+  }
   return (
     <div>
       <div className="single-product-main-area">
@@ -129,7 +134,7 @@ const GiftDetail = (props: IGiftDetailProps) => {
                     </div>
                   </div>
                   <div className="add-to_cart">
-                    <Button className="btn product-cart button-icon flosun-button dark-btn">
+                    <Button onClick={() => onAddToCart()} className="btn product-cart button-icon flosun-button dark-btn">
                       <span className="menu-text"> Add to cart</span>
                     </Button>
                   </div>
@@ -168,11 +173,14 @@ const GiftDetail = (props: IGiftDetailProps) => {
   );
 };
 
-const mapStateToProps = ({ giftItem }: IRootState) => ({
+const mapStateToProps = ({ giftItem, authentication }: IRootState) => ({
   giftItem: giftItem.selectedGiftItem,
+  account: authentication.account,
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  addToCart,
+};
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = typeof mapDispatchToProps;

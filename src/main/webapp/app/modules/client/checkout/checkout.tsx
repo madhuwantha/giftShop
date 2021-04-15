@@ -1,13 +1,29 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { IRootState } from 'app/shared/reducers';
-import { getEntities } from 'app/entities/category/category.reducer';
+import { getEntityByUser } from 'app/entities/cart/cart.reducer';
+import { getClientByUser } from 'app/entities/client/client.reducer';
 
 export interface IShopCartProps extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> {}
 
 const Checkout = (props: IShopCartProps) => {
+  const { client, account, cart } = props;
+  const [totalPrice, setTotalPrice] = useState(0);
+
+  useEffect(() => {
+    props.getClientByUser(account.id);
+  }, [account]);
+
+  useEffect(() => {
+    setTotalPrice(cart.giftItems.map<number>(gift => gift.unitPrice).reduce((a, b) => a + b, 0));
+  }, [cart]);
+
+  useEffect(() => {
+    props.getEntityByUser(account.id);
+  }, [account]);
+
   return (
     <div className="checkout-area mt-no-text">
       <div className="container custom-container">
@@ -20,52 +36,27 @@ const Checkout = (props: IShopCartProps) => {
               <div className="checkbox-form">
                 <h3>Billing Details</h3>
                 <div className="row">
+                  <div className="col-md-12 col-custom"></div>
                   <div className="col-md-12 col-custom">
-                    {/*<div className="country-select clearfix">*/}
-                    {/*  <label>Country <span className="required">*</span></label>*/}
-                    {/*  <select className="myniceselect nice-select wide rounded-0">*/}
-                    {/*    <option data-display="Bangladesh">Bangladesh</option>*/}
-                    {/*    <option value="uk">London</option>*/}
-                    {/*    <option value="rou">Romania</option>*/}
-                    {/*    <option value="fr">French</option>*/}
-                    {/*    <option value="de">Germany</option>*/}
-                    {/*    <option value="aus">Australia</option>*/}
-                    {/*  </select>*/}
-                    {/*</div>*/}
-                  </div>
-                  <div className="col-md-6 col-custom">
                     <div className="checkout-form-list">
                       <label>
-                        First Name <span className="required">*</span>
+                        Name <span className="required">*</span>
                       </label>
-                      <input placeholder="" type="text" />
+                      <input placeholder="" type="text" value={client.name} />
                     </div>
                   </div>
-                  <div className="col-md-6 col-custom">
-                    <div className="checkout-form-list">
-                      <label>
-                        Last Name <span className="required">*</span>
-                      </label>
-                      <input placeholder="" type="text" />
-                    </div>
-                  </div>
-                  <div className="col-md-12 col-custom">
-                    {/*<div className="checkout-form-list">*/}
-                    {/*  <label>Company Name</label>*/}
-                    {/*  <input placeholder="" type="text" />*/}
-                    {/*</div>*/}
-                  </div>
+                  <div className="col-md-12 col-custom"></div>
                   <div className="col-md-12 col-custom">
                     <div className="checkout-form-list">
                       <label>
                         Address <span className="required">*</span>
                       </label>
-                      <input placeholder="Street address" type="text" />
+                      <input value={client.addressLineOne} placeholder="Street address" type="text" />
                     </div>
                   </div>
                   <div className="col-md-12 col-custom">
                     <div className="checkout-form-list">
-                      <input placeholder="Apartment, suite, unit etc. (optional)" type="text" />
+                      <input value={client.addressLineTwo} placeholder="Apartment, suite, unit etc. (optional)" type="text" />
                     </div>
                   </div>
                   <div className="col-md-12 col-custom">
@@ -73,65 +64,20 @@ const Checkout = (props: IShopCartProps) => {
                       <label>
                         Town / City <span className="required">*</span>
                       </label>
-                      <input type="text" />
+                      <input type="text" value={client.city} />
                     </div>
                   </div>
-                  <div className="col-md-6 col-custom">
-                    <div className="checkout-form-list">
-                      <label>
-                        State <span className="required">*</span>
-                      </label>
-                      <input placeholder="" type="text" />
-                    </div>
-                  </div>
-                  <div className="col-md-6 col-custom">
+                  <div className="col-md-12 col-custom">
                     <div className="checkout-form-list">
                       <label>
                         Postcode / Zip <span className="required">*</span>
                       </label>
-                      <input placeholder="" type="text" />
+                      <input placeholder="" type="text" value={client.postalCode} />
                     </div>
-                  </div>
-                  <div className="col-md-6 col-custom">
-                    <div className="checkout-form-list">
-                      <label>
-                        Email Address <span className="required">*</span>
-                      </label>
-                      <input placeholder="" type="email" />
-                    </div>
-                  </div>
-                  <div className="col-md-6 col-custom">
-                    <div className="checkout-form-list">
-                      <label>
-                        Phone <span className="required">*</span>
-                      </label>
-                      <input type="text" />
-                    </div>
-                  </div>
-                  <div className="col-md-12 col-custom">
-                    {/*<div className="checkout-form-list create-acc">*/}
-                    {/*  <input id="cbox" type="checkbox" />*/}
-                    {/*    <label htmlFor="cbox">Create an account?</label>*/}
-                    {/*</div>*/}
-                    <div id="cbox-info" className="checkout-form-list create-account">
-                      <p className="mb-2">
-                        Create an account by entering the information below. If you are a returning customer please login at the top of the
-                        page.
-                      </p>
-                      <label>
-                        Account password <span className="required">*</span>
-                      </label>
-                      <input placeholder="password" type="password" />
-                    </div>
+                    {/*{client.}*/}
                   </div>
                 </div>
                 <div className="different-address">
-                  {/*<div className="ship-different-title">*/}
-                  {/*  <div>*/}
-                  {/*    <input id="ship-box" type="checkbox" />*/}
-                  {/*      <label htmlFor="ship-box">Ship to a different address?</label>*/}
-                  {/*  </div>*/}
-                  {/*</div>*/}
                   <div id="ship-box-info" className="row mt-2">
                     <div className="col-md-12 col-custom">
                       <div className="myniceselect country-select clearfix">
@@ -210,25 +156,10 @@ const Checkout = (props: IShopCartProps) => {
                     <div className="col-md-12 col-custom">
                       <div className="checkout-form-list">
                         <label>
-                          Email Address <span className="required">*</span>
-                        </label>
-                        <input placeholder="" type="email" />
-                      </div>
-                    </div>
-                    <div className="col-md-12 col-custom">
-                      <div className="checkout-form-list">
-                        <label>
                           Phone <span className="required">*</span>
                         </label>
                         <input type="text" />
                       </div>
-                    </div>
-                  </div>
-                  <div className="order-notes mt-3">
-                    <div className="checkout-form-list checkout-form-list-2">
-                      <label>Order Notes</label>
-                      {/*<textarea id="checkout-mess" cols="30" rows="10"*/}
-                      {/*          placeholder="Notes about your order, e.g. special notes for delivery."></textarea>*/}
                     </div>
                   </div>
                 </div>
@@ -243,41 +174,31 @@ const Checkout = (props: IShopCartProps) => {
                   <thead>
                     <tr>
                       <th className="cart-product-name">Product</th>
-                      <th className="cart-product-total">Total</th>
+                      <th className="cart-product-total">Price</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr className="cart_item">
-                      <td className="cart-product-name">
-                        {' '}
-                        Vestibulum suscipit<strong className="product-quantity">× 1</strong>
-                      </td>
-                      <td className="cart-product-total text-center">
-                        <span className="amount">£165.00</span>
-                      </td>
-                    </tr>
-                    <tr className="cart_item">
-                      <td className="cart-product-name">
-                        {' '}
-                        Vestibulum suscipit<strong className="product-quantity">× 1</strong>
-                      </td>
-                      <td className="cart-product-total text-center">
-                        <span className="amount">£165.00</span>
-                      </td>
-                    </tr>
+                    {cart.giftItems != undefined ? (
+                      cart.giftItems.map(giftItem => {
+                        return (
+                          <tr className="cart_item">
+                            <td className="cart-product-name"> {giftItem.giftName}</td>
+                            <td className="cart-product-total text-center">
+                              <span className="amount">$ {giftItem.unitPrice}</span>
+                            </td>
+                          </tr>
+                        );
+                      })
+                    ) : (
+                      <></>
+                    )}
                   </tbody>
                   <tfoot>
-                    <tr className="cart-subtotal">
-                      <th>Cart Subtotal</th>
-                      <td className="text-center">
-                        <span className="amount">£215.00</span>
-                      </td>
-                    </tr>
                     <tr className="order-total">
                       <th>Order Total</th>
                       <td className="text-center">
                         <strong>
-                          <span className="amount">£215.00</span>
+                          <span className="amount">£ {totalPrice}</span>
                         </strong>
                       </td>
                     </tr>
@@ -312,14 +233,7 @@ const Checkout = (props: IShopCartProps) => {
                       </div>
                     </div>
                     <div className="card">
-                      <div className="card-header" id="#payment-2">
-                        {/*<h5 className="panel-title mb-3">*/}
-                        {/*  <a href="#" className="collapsed" data-toggle="collapse" data-target="#collapseTwo"*/}
-                        {/*     aria-expanded="false" aria-controls="collapseTwo">*/}
-                        {/*    Cheque Payment*/}
-                        {/*  </a>*/}
-                        {/*</h5>*/}
-                      </div>
+                      <div className="card-header" id="#payment-2"></div>
                       <div id="collapseTwo" className="collapse" data-parent="#accordion">
                         <div className="card-body mb-2 mt-2">
                           <p>
@@ -330,14 +244,7 @@ const Checkout = (props: IShopCartProps) => {
                       </div>
                     </div>
                     <div className="card">
-                      <div className="card-header" id="#payment-3">
-                        {/*<h5 className="panel-title mb-3">*/}
-                        {/*  <a href="#" className="collapsed" data-toggle="collapse" data-target="#collapseThree"*/}
-                        {/*     aria-expanded="false" aria-controls="collapseThree">*/}
-                        {/*    PayPal*/}
-                        {/*  </a>*/}
-                        {/*</h5>*/}
-                      </div>
+                      <div className="card-header" id="#payment-3"></div>
                       <div id="collapseThree" className="collapse" data-parent="#accordion">
                         <div className="card-body mb-2 mt-2">
                           <p>
@@ -361,13 +268,15 @@ const Checkout = (props: IShopCartProps) => {
   );
 };
 
-const mapStateToProps = ({ category }: IRootState) => ({
-  categoryList: category.entities,
-  loading: category.loading,
+const mapStateToProps = ({ cart, authentication, client }: IRootState) => ({
+  account: authentication.account,
+  cart: cart.entity,
+  client: client.entity,
 });
 
 const mapDispatchToProps = {
-  getEntities,
+  getEntityByUser,
+  getClientByUser,
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

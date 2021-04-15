@@ -7,6 +7,7 @@ import { IRootState } from 'app/shared/reducers';
 import { getEntities, selectCategory } from 'app/entities/category/category.reducer';
 import { getEntities as getGiftItems } from 'app/entities/gift-item/gift-item.reducer';
 import GftItemCard from 'app/components/gft-item-card';
+import { addToCart } from 'app/entities/cart/cart.reducer';
 
 export interface IShopHomeProps extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> {}
 
@@ -16,7 +17,7 @@ export const ShopHome = (props: IShopHomeProps) => {
     props.getGiftItems();
   }, []);
 
-  const { categoryList, match, loading } = props;
+  const { categoryList, match, account } = props;
 
   const onCategoryClicked = (id: number) => {
     props.selectCategory(id);
@@ -84,17 +85,19 @@ export const ShopHome = (props: IShopHomeProps) => {
   );
 };
 
-const mapStateToProps = ({ category, giftItem }: IRootState) => ({
+const mapStateToProps = ({ category, giftItem, authentication }: IRootState) => ({
   categoryList: category.entities,
   loading: category.loading,
   selectCategory: category.selectedCategory,
   giftItemList: giftItem.entities,
+  account: authentication.account,
 });
 
 const mapDispatchToProps = {
   getEntities,
   selectCategory,
   getGiftItems,
+  addToCart,
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

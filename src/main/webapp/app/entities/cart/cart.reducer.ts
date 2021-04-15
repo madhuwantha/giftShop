@@ -103,6 +103,22 @@ const apiUrl = 'api/carts';
 
 // Actions
 
+export const addToCart: any = (id: number, user_id: number) => {
+  const requestUrl = `${apiUrl}/user/${user_id}/gift-item/${id}`;
+  return {
+    type: ACTION_TYPES.FETCH_CART,
+    payload: axios.post<ICart>(requestUrl),
+  };
+};
+
+export const removeFromCart = (id: number, user_id: number) => {
+  const requestUrl = `${apiUrl}/user/${user_id}/gift-item/${id}`;
+  return {
+    type: ACTION_TYPES.FETCH_CART,
+    payload: axios.delete<ICart>(requestUrl),
+  };
+};
+
 export const getEntities: ICrudGetAllAction<ICart> = (page, size, sort) => ({
   type: ACTION_TYPES.FETCH_CART_LIST,
   payload: axios.get<ICart>(`${apiUrl}?cacheBuster=${new Date().getTime()}`),
@@ -110,6 +126,14 @@ export const getEntities: ICrudGetAllAction<ICart> = (page, size, sort) => ({
 
 export const getEntity: ICrudGetAction<ICart> = id => {
   const requestUrl = `${apiUrl}/${id}`;
+  return {
+    type: ACTION_TYPES.FETCH_CART,
+    payload: axios.get<ICart>(requestUrl),
+  };
+};
+
+export const getEntityByUser: ICrudGetAction<ICart> = id => {
+  const requestUrl = `${apiUrl}/user/${id}`;
   return {
     type: ACTION_TYPES.FETCH_CART,
     payload: axios.get<ICart>(requestUrl),
