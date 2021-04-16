@@ -2,7 +2,6 @@ package com.mycompany.myapp.web.rest;
 
 import com.mycompany.myapp.domain.Client;
 import com.mycompany.myapp.repository.ClientRepository;
-import com.mycompany.myapp.repository.UserRepository;
 import com.mycompany.myapp.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -35,11 +34,8 @@ public class ClientResource {
 
     private final ClientRepository clientRepository;
 
-    private final UserRepository userRepository;
-
-    public ClientResource(ClientRepository clientRepository, UserRepository userRepository) {
+    public ClientResource(ClientRepository clientRepository) {
         this.clientRepository = clientRepository;
-        this.userRepository = userRepository;
     }
 
     /**
@@ -174,13 +170,6 @@ public class ClientResource {
     public ResponseEntity<Client> getClient(@PathVariable Long id) {
         log.debug("REST request to get Client : {}", id);
         Optional<Client> client = clientRepository.findById(id);
-        return ResponseUtil.wrapOrNotFound(client);
-    }
-
-    @GetMapping("/clients/user/{id}")
-    public ResponseEntity<Client> getClientByUser(@PathVariable Long id) {
-        log.debug("REST request to get Client by user : {}", id);
-        Optional<Client> client = clientRepository.findByUser(userRepository.findById(id).get());
         return ResponseUtil.wrapOrNotFound(client);
     }
 

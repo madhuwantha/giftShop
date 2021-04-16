@@ -31,6 +31,10 @@ public class GiftItem implements Serializable {
     @Column(name = "avalible_quantity")
     private Integer avalibleQuantity;
 
+    @OneToOne
+    @JoinColumn(unique = true)
+    private Image image;
+
     @ManyToOne
     @JsonIgnoreProperties(value = { "giftItems" }, allowSetters = true)
     private Category category;
@@ -107,6 +111,19 @@ public class GiftItem implements Serializable {
 
     public void setAvalibleQuantity(Integer avalibleQuantity) {
         this.avalibleQuantity = avalibleQuantity;
+    }
+
+    public Image getImage() {
+        return this.image;
+    }
+
+    public GiftItem image(Image image) {
+        this.setImage(image);
+        return this;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
     }
 
     public Category getCategory() {
