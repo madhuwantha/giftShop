@@ -17,11 +17,18 @@ import { getEntity, updateEntity, createEntity, reset } from './gift-item.reduce
 import { IGiftItem } from 'app/shared/model/gift-item.model';
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
 import { mapIdList } from 'app/shared/util/entity-utils';
+import image from 'app/entities/image/image';
 
 export interface IGiftItemUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
 export const GiftItemUpdate = (props: IGiftItemUpdateProps) => {
   const [isNew] = useState(!props.match.params || !props.match.params.id);
+
+  const [file, setFile] = useState(null);
+
+  function onChange(e) {
+    setFile(e.target.files[0]);
+  }
 
   const { giftItemEntity, categories, carts, giftOrders, loading, updating } = props;
 
@@ -53,6 +60,7 @@ export const GiftItemUpdate = (props: IGiftItemUpdateProps) => {
         ...giftItemEntity,
         ...values,
         category: categories.find(it => it.id.toString() === values.categoryId.toString()),
+        image: file,
       };
 
       if (isNew) {
@@ -126,6 +134,15 @@ export const GiftItemUpdate = (props: IGiftItemUpdateProps) => {
                       ))
                     : null}
                 </AvInput>
+              </AvGroup>
+              <AvGroup>
+                <p>{giftItemEntity.image.id}</p>
+              </AvGroup>
+              <AvGroup>
+                <Label id="giftImageLabel" for="gift-item-image">
+                  Image
+                </Label>
+                <AvField onChange={event => onChange(event)} id="gift-item-image" data-cy="giftName" type="file" name="image" />
               </AvGroup>
               <Button tag={Link} id="cancel-save" to="/gift-item" replace color="info">
                 <FontAwesomeIcon icon="arrow-left" />

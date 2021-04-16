@@ -1,10 +1,11 @@
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 import { ICrudGetAction, ICrudGetAllAction, ICrudPutAction, ICrudDeleteAction } from 'react-jhipster';
 
 import { cleanEntity } from 'app/shared/util/entity-utils';
 import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util';
 
 import { IGiftItem, defaultValue } from 'app/shared/model/gift-item.model';
+import { data } from 'autoprefixer';
 
 export const ACTION_TYPES = {
   FETCH_GIFTITEM_LIST: 'giftItem/FETCH_GIFTITEM_LIST',
@@ -140,6 +141,18 @@ export const createEntity: ICrudPutAction<IGiftItem> = entity => async dispatch 
 };
 
 export const updateEntity: ICrudPutAction<IGiftItem> = entity => async dispatch => {
+  const config = {
+    headers: {
+      'content-type': 'multipart/form-data',
+    },
+  };
+  let formData = new FormData();
+  formData.append('file', entity.image);
+  let res = await axios.post(`api/image/upload`, formData, config);
+  console.log(res);
+  entity.image = { id: res['data']['id'], imagePath: res['data']['imagepath'] };
+  console.log(entity);
+
   const result = await dispatch({
     type: ACTION_TYPES.UPDATE_GIFTITEM,
     payload: axios.put(`${apiUrl}/${entity.id}`, cleanEntity(entity)),

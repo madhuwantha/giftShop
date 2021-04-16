@@ -3,17 +3,25 @@ package com.mycompany.myapp.web.rest;
 import com.mycompany.myapp.domain.Image;
 import com.mycompany.myapp.repository.ImageRepository;
 import com.mycompany.myapp.web.rest.errors.BadRequestAlertException;
+import java.io.File;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Random;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
@@ -26,6 +34,8 @@ import tech.jhipster.web.util.ResponseUtil;
 public class ImageResource {
 
     private final Logger log = LoggerFactory.getLogger(ImageResource.class);
+
+    private static final String UPLOAD_DIR = "D://upload//";
 
     private static final String ENTITY_NAME = "image";
 
@@ -173,5 +183,52 @@ public class ImageResource {
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    @PostMapping("/image/upload")
+    public ResponseEntity<Image> handleFileUpload(@RequestParam(value = "file") MultipartFile file) throws IOException, URISyntaxException {
+        String fileExtension = getFileExtension(file);
+        String filename = getRandomString();
+
+        File targetFile = getTargetFile(fileExtension, filename);
+
+        byte[] bytes = file.getBytes();
+        file.transferTo(targetFile);
+        String UploadedDirectory = targetFile.getAbsolutePath();
+
+        Image image = new Image();
+        image.setImagepath(filename);
+        Image saved = imageRepository.save(image);
+
+        return ResponseEntity
+            .created(new URI("/api/images/upload" + saved.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, saved.getId().toString()))
+            .body(saved);
+    }
+
+    @RequestMapping(value = "/image/upload/{galleryId}", method = RequestMethod.GET)
+    public ResponseEntity<byte[]> getFile(@PathVariable("galleryId") String galleryId) throws IOException {
+        byte[] bFile = Files.readAllBytes(new File(UPLOAD_DIR + galleryId + ".jpg").toPath());
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.IMAGE_JPEG);
+        headers.setContentLength(bFile.length);
+
+        ResponseEntity<byte[]> responseEntity = new ResponseEntity<byte[]>(bFile, headers, HttpStatus.OK);
+        return responseEntity;
+    }
+
+    private String getRandomString() {
+        return new Random().nextInt(999999) + "_" + System.currentTimeMillis();
+    }
+
+    private File getTargetFile(String fileExtn, String fileName) {
+        File targetFile = new File(UPLOAD_DIR + fileName + fileExtn);
+        return targetFile;
+    }
+
+    private String getFileExtension(MultipartFile inFile) {
+        String fileExtention = inFile.getOriginalFilename().substring(inFile.getOriginalFilename().lastIndexOf('.'));
+        return fileExtention;
     }
 }
