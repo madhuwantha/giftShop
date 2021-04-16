@@ -1,7 +1,6 @@
 package com.mycompany.myapp.repository;
 
 import com.mycompany.myapp.domain.Cart;
-import com.mycompany.myapp.domain.User;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
@@ -26,6 +25,4 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
 
     @Query("select cart from Cart cart left join fetch cart.giftItems where cart.id =:id")
     Optional<Cart> findOneWithEagerRelationships(@Param("id") Long id);
-
-    List<Cart> findByUser(User user);
 }

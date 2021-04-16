@@ -1,17 +1,13 @@
 package com.mycompany.myapp.web.rest;
 
 import com.mycompany.myapp.domain.Cart;
-import com.mycompany.myapp.domain.GiftItem;
 import com.mycompany.myapp.repository.CartRepository;
-import com.mycompany.myapp.repository.GiftItemRepository;
-import com.mycompany.myapp.repository.UserRepository;
 import com.mycompany.myapp.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -37,13 +33,9 @@ public class CartResource {
     private String applicationName;
 
     private final CartRepository cartRepository;
-    private final UserRepository userRepository;
-    private final GiftItemRepository giftItemRepository;
 
-    public CartResource(CartRepository cartRepository, UserRepository userRepository, GiftItemRepository giftItemRepository) {
+    public CartResource(CartRepository cartRepository) {
         this.cartRepository = cartRepository;
-        this.userRepository = userRepository;
-        this.giftItemRepository = giftItemRepository;
     }
 
     /**
@@ -166,38 +158,6 @@ public class CartResource {
         log.debug("REST request to get Cart : {}", id);
         Optional<Cart> cart = cartRepository.findOneWithEagerRelationships(id);
         return ResponseUtil.wrapOrNotFound(cart);
-    }
-
-    @GetMapping("/carts/user/{id}")
-    public ResponseEntity<Cart> getCartByUser(@PathVariable Long id) {
-        log.debug("REST request to get Cart by user : {}", id);
-        Cart cart = cartRepository.findByUser(userRepository.findById(id).get()).get(0);
-        Set<GiftItem> giftItems = cart.getGiftItems();
-        cart.setGiftItems(giftItems);
-
-        cart.getGiftItems().forEach(giftItem -> cart.getGiftItems().add(giftItem));
-
-        return ResponseEntity.ok(cart);
-    }
-
-    @DeleteMapping("/carts/user/{user_id}/gift-item/{id}")
-    public ResponseEntity<Cart> removeGiftItem(@PathVariable Long id, @PathVariable Long user_id) {
-        log.debug("REST request to delete Gift Item from cart by Gift Item id : {}", id);
-        GiftItem giftItem = giftItemRepository.findById(id).get();
-        Cart cart = cartRepository.findByUser(userRepository.findById(user_id).get()).get(0);
-        cart.getGiftItems().remove(giftItem);
-        cart = cartRepository.save(cart);
-        return ResponseEntity.ok(cart);
-    }
-
-    @PostMapping("/carts/user/{user_id}/gift-item/{id}")
-    public ResponseEntity<Cart> addGiftItem(@PathVariable Long id, @PathVariable Long user_id) {
-        log.debug("REST request to add Gift Item for cart by Gift Item id : {}", id);
-        GiftItem giftItem = giftItemRepository.findById(id).get();
-        Cart cart = cartRepository.findByUser(userRepository.findById(user_id).get()).get(0);
-        cart.getGiftItems().add(giftItem);
-        cart = cartRepository.save(cart);
-        return ResponseEntity.ok(cart);
     }
 
     /**

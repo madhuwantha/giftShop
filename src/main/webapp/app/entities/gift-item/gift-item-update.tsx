@@ -7,6 +7,8 @@ import { translate } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
 
+import { IImage } from 'app/shared/model/image.model';
+import { getEntities as getImages } from 'app/entities/image/image.reducer';
 import { ICategory } from 'app/shared/model/category.model';
 import { getEntities as getCategories } from 'app/entities/category/category.reducer';
 import { ICart } from 'app/shared/model/cart.model';
@@ -17,20 +19,13 @@ import { getEntity, updateEntity, createEntity, reset } from './gift-item.reduce
 import { IGiftItem } from 'app/shared/model/gift-item.model';
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
 import { mapIdList } from 'app/shared/util/entity-utils';
-import image from 'app/entities/image/image';
 
 export interface IGiftItemUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
 export const GiftItemUpdate = (props: IGiftItemUpdateProps) => {
   const [isNew] = useState(!props.match.params || !props.match.params.id);
 
-  const [file, setFile] = useState(null);
-
-  function onChange(e) {
-    setFile(e.target.files[0]);
-  }
-
-  const { giftItemEntity, categories, carts, giftOrders, loading, updating } = props;
+  const { giftItemEntity, images, categories, carts, giftOrders, loading, updating } = props;
 
   const handleClose = () => {
     props.history.push('/gift-item');
@@ -43,6 +38,7 @@ export const GiftItemUpdate = (props: IGiftItemUpdateProps) => {
       props.getEntity(props.match.params.id);
     }
 
+    props.getImages();
     props.getCategories();
     props.getCarts();
     props.getGiftOrders();
@@ -59,8 +55,8 @@ export const GiftItemUpdate = (props: IGiftItemUpdateProps) => {
       const entity = {
         ...giftItemEntity,
         ...values,
+        image: images.find(it => it.id.toString() === values.imageId.toString()),
         category: categories.find(it => it.id.toString() === values.categoryId.toString()),
-        image: file,
       };
 
       if (isNew) {
@@ -123,6 +119,19 @@ export const GiftItemUpdate = (props: IGiftItemUpdateProps) => {
                 />
               </AvGroup>
               <AvGroup>
+                <Label for="gift-item-image">Image</Label>
+                <AvInput id="gift-item-image" data-cy="image" type="select" className="form-control" name="imageId">
+                  <option value="" key="0" />
+                  {images
+                    ? images.map(otherEntity => (
+                        <option value={otherEntity.id} key={otherEntity.id}>
+                          {otherEntity.id}
+                        </option>
+                      ))
+                    : null}
+                </AvInput>
+              </AvGroup>
+              <AvGroup>
                 <Label for="gift-item-category">Category</Label>
                 <AvInput id="gift-item-category" data-cy="category" type="select" className="form-control" name="categoryId">
                   <option value="" key="0" />
@@ -134,15 +143,6 @@ export const GiftItemUpdate = (props: IGiftItemUpdateProps) => {
                       ))
                     : null}
                 </AvInput>
-              </AvGroup>
-              <AvGroup>
-                <p>{giftItemEntity.image.id}</p>
-              </AvGroup>
-              <AvGroup>
-                <Label id="giftImageLabel" for="gift-item-image">
-                  Image
-                </Label>
-                <AvField onChange={event => onChange(event)} id="gift-item-image" data-cy="giftName" type="file" name="image" />
               </AvGroup>
               <Button tag={Link} id="cancel-save" to="/gift-item" replace color="info">
                 <FontAwesomeIcon icon="arrow-left" />
@@ -163,6 +163,7 @@ export const GiftItemUpdate = (props: IGiftItemUpdateProps) => {
 };
 
 const mapStateToProps = (storeState: IRootState) => ({
+  images: storeState.image.entities,
   categories: storeState.category.entities,
   carts: storeState.cart.entities,
   giftOrders: storeState.giftOrder.entities,
@@ -173,6 +174,7 @@ const mapStateToProps = (storeState: IRootState) => ({
 });
 
 const mapDispatchToProps = {
+  getImages,
   getCategories,
   getCarts,
   getGiftOrders,
