@@ -59,7 +59,11 @@ const ClientCart = (props: IShopCartProps) => {
                         <tr>
                           <td className="pro-thumbnail">
                             <a href="#">
-                              <img className="img-fluid" src="../../../content/images/product/small-size/1.jpg" alt="Product" />
+                              <img
+                                className="img-fluid"
+                                src={giftItem.image != undefined ? 'http://localhost:8080/public/image/' + giftItem.image.imagepath : ''}
+                                alt="Product"
+                              />
                             </a>
                           </td>
                           <td className="pro-title">

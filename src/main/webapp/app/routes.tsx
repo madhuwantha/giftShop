@@ -40,10 +40,14 @@ const Routes = () => {
         <ErrorBoundaryRoute path="/account/activate/:key?" component={Activate} />
         <ErrorBoundaryRoute path="/account/reset/request" component={PasswordResetInit} />
         <ErrorBoundaryRoute path="/account/reset/finish/:key?" component={PasswordResetFinish} />
-        <PrivateRoute path="/admin" component={Admin} hasAnyAuthorities={[AUTHORITIES.ADMIN]} />
-        <PrivateRoute path="/account" component={Account} hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]} />
+        <PrivateRoute path="/admin" component={Admin} hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.OWNER]} />
+        <PrivateRoute
+          path="/account"
+          component={Account}
+          hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER, AUTHORITIES.OWNER, AUTHORITIES.EMPLOYEE]}
+        />
         <ErrorBoundaryRoute path="/shop" component={Client} />
-        <PrivateRoute path="/" component={Entities} hasAnyAuthorities={[AUTHORITIES.USER]} />
+        <PrivateRoute path="/entity" component={Entities} hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.OWNER]} />
         <Redirect from="/" to="/shop/home" />
         <ErrorBoundaryRoute path="/" exact component={Home} />
         <ErrorBoundaryRoute component={PageNotFound} />

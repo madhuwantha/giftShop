@@ -28,8 +28,16 @@ const GftItemCard = (props: IGftItemCardProps) => {
       <div className="product-item">
         <div className="single-product position-relative mr-0 ml-0">
           <div className="product-image">
-            <img src="../content/images/product/2.jpg" alt="" className="product-image-1 w-100" />
-            <img src="../content/images/product/2.jpg" alt="" className="product-image-2 position-absolute w-100" />
+            <img
+              src={giftItem.image != undefined ? 'http://localhost:8080/public/image/' + giftItem.image.imagepath : ''}
+              alt=""
+              className="product-image-1 w-100"
+            />
+            <img
+              src={giftItem.image != undefined ? 'http://localhost:8080/public/image/' + giftItem.image.imagepath : ''}
+              alt=""
+              className="product-image-2 position-absolute w-100"
+            />
             <span className="onsale">Sale!</span>
             <div className="add-action d-flex flex-column position-absolute">
               <Button
@@ -47,9 +55,7 @@ const GftItemCard = (props: IGftItemCardProps) => {
           </div>
           <div className="product-content">
             <div className="product-title">
-              <h4 className="title-2">
-                <a href="product-details.html">{giftItem.giftName}</a>
-              </h4>
+              <h4 className="title-2">{giftItem.giftName}</h4>
             </div>
             <div className="price-box">
               <span className="regular-price ">$ {giftItem.unitPrice}</span>

@@ -39,27 +39,27 @@ export const AppAdmin = (props: IAppProps) => {
       <div className="app-container" style={{ paddingTop }}>
         <ToastContainer position={toast.POSITION.TOP_LEFT} className="toastify-container" toastClassName="toastify-toast" />
         <ErrorBoundary>
-          {props.isAdmin ? (
-            <>
-              <Header
-                isAuthenticated={props.isAuthenticated}
-                isAdmin={props.isAdmin}
-                ribbonEnv={props.ribbonEnv}
-                isInProduction={props.isInProduction}
-                isOpenAPIEnabled={props.isOpenAPIEnabled}
-              />
-            </>
-          ) : (
-            <>
-              <ClientHeader
-                isAuthenticated={props.isAuthenticated}
-                isAdmin={props.isAdmin}
-                ribbonEnv={props.ribbonEnv}
-                isInProduction={props.isInProduction}
-                isOpenAPIEnabled={props.isOpenAPIEnabled}
-              />
-            </>
-          )}
+          {/*{props.isAdmin ? (*/}
+          {/*  <>*/}
+          {/*    <Header*/}
+          {/*      isAuthenticated={props.isAuthenticated}*/}
+          {/*      isAdmin={props.isAdmin}*/}
+          {/*      ribbonEnv={props.ribbonEnv}*/}
+          {/*      isInProduction={props.isInProduction}*/}
+          {/*      isOpenAPIEnabled={props.isOpenAPIEnabled}*/}
+          {/*    />*/}
+          {/*  </>*/}
+          {/*) : (*/}
+          {/*  <>*/}
+          {/*    <ClientHeader*/}
+          {/*      isAuthenticated={props.isAuthenticated}*/}
+          {/*      isAdmin={props.isAdmin}*/}
+          {/*      ribbonEnv={props.ribbonEnv}*/}
+          {/*      isInProduction={props.isInProduction}*/}
+          {/*      isOpenAPIEnabled={props.isOpenAPIEnabled}*/}
+          {/*    />*/}
+          {/*  </>*/}
+          {/*)}*/}
         </ErrorBoundary>
         <div style={{ padding: 0 }} className="container-fluid view-container" id="app-view-container">
           <Card className="jh-card">

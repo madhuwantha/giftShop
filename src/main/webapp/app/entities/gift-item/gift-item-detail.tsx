@@ -46,6 +46,10 @@ export const GiftItemDetail = (props: IGiftItemDetailProps) => {
           <dd>{giftItemEntity.image ? giftItemEntity.image.id : ''}</dd>
           <dt>Category</dt>
           <dd>{giftItemEntity.category ? giftItemEntity.category.id : ''}</dd>
+          <img
+            src={giftItemEntity.image != undefined ? 'http://localhost:8080/public/image/' + giftItemEntity.image.imagepath : ''}
+            alt=""
+          />
         </dl>
         <Button tag={Link} to="/gift-item" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" /> <span className="d-none d-md-inline">Back</span>

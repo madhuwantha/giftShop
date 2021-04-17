@@ -36,11 +36,13 @@ export const App = (props: IAppProps) => {
       <div className="app-container" style={{ paddingTop }}>
         <ToastContainer position={toast.POSITION.TOP_LEFT} className="toastify-container" toastClassName="toastify-toast" />
         <ErrorBoundary>
-          {props.isAdmin ? (
+          {props.isAdmin || props.isEmployee || props.isOwner ? (
             <>
               <Header
                 isAuthenticated={props.isAuthenticated}
                 isAdmin={props.isAdmin}
+                isOwner={props.isOwner}
+                isEmployee={props.isEmployee}
                 ribbonEnv={props.ribbonEnv}
                 isInProduction={props.isInProduction}
                 isOpenAPIEnabled={props.isOpenAPIEnabled}
@@ -49,6 +51,8 @@ export const App = (props: IAppProps) => {
           ) : (
             <>
               <ClientHeader
+                isOwner={props.isOwner}
+                isEmployee={props.isEmployee}
                 isAuthenticated={props.isAuthenticated}
                 isAdmin={props.isAdmin}
                 ribbonEnv={props.ribbonEnv}
@@ -74,6 +78,8 @@ export const App = (props: IAppProps) => {
 const mapStateToProps = ({ authentication, applicationProfile }: IRootState) => ({
   isAuthenticated: authentication.isAuthenticated,
   isAdmin: hasAnyAuthority(authentication.account.authorities, [AUTHORITIES.ADMIN]),
+  isOwner: hasAnyAuthority(authentication.account.authorities, [AUTHORITIES.OWNER]),
+  isEmployee: hasAnyAuthority(authentication.account.authorities, [AUTHORITIES.EMPLOYEE]),
   ribbonEnv: applicationProfile.ribbonEnv,
   isInProduction: applicationProfile.inProduction,
   isOpenAPIEnabled: applicationProfile.isOpenAPIEnabled,

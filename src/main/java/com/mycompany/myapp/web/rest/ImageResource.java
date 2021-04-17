@@ -174,4 +174,38 @@ public class ImageResource {
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
             .build();
     }
+    @PostMapping("/image/upload")
+    public ResponseEntity<Image> handleFileUpload(@RequestParam(value = "file") MultipartFile file) throws IOException, URISyntaxException {
+        String fileExtension = getFileExtension(file);
+        String filename = getRandomString();
+
+        File targetFile = getTargetFile(fileExtension, filename);
+
+        byte[] bytes = file.getBytes();
+        file.transferTo(targetFile);
+        String UploadedDirectory = targetFile.getAbsolutePath();
+
+        Image image = new Image();
+        image.setImagepath(filename + fileExtension);
+        Image saved = imageRepository.save(image);
+
+        return ResponseEntity
+            .created(new URI("/api/images/upload" + saved.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, saved.getId().toString()))
+            .body(saved);
+    }
+
+    private String getRandomString() {
+        return new Random().nextInt(999999) + "_" + System.currentTimeMillis();
+    }
+
+    private File getTargetFile(String fileExtn, String fileName) {
+        File targetFile = new File(UPLOAD_DIR + fileName + fileExtn);
+        return targetFile;
+    }
+
+    private String getFileExtension(MultipartFile inFile) {
+        String fileExtention = inFile.getOriginalFilename().substring(inFile.getOriginalFilename().lastIndexOf('.'));
+        return fileExtention;
+    }
 }

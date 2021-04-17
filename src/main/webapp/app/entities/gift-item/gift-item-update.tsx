@@ -27,6 +27,10 @@ export const GiftItemUpdate = (props: IGiftItemUpdateProps) => {
 
   const { giftItemEntity, images, categories, carts, giftOrders, loading, updating } = props;
 
+  useEffect(() => {
+    console.log(giftItemEntity);
+  }, [giftItemEntity]);
+
   const handleClose = () => {
     props.history.push('/gift-item');
   };
@@ -134,15 +138,25 @@ export const GiftItemUpdate = (props: IGiftItemUpdateProps) => {
               <AvGroup>
                 <Label for="gift-item-category">Category</Label>
                 <AvInput id="gift-item-category" data-cy="category" type="select" className="form-control" name="categoryId">
-                  <option value="" key="0" />
+                  <option value="0" key="0" />
                   {categories
                     ? categories.map(otherEntity => (
                         <option value={otherEntity.id} key={otherEntity.id}>
-                          {otherEntity.id}
+                          {otherEntity.categoryName}
                         </option>
                       ))
                     : null}
                 </AvInput>
+              </AvGroup>
+              <img
+                src={giftItemEntity.image != undefined ? 'http://localhost:8080/public/image/' + giftItemEntity.image.imagepath : ''}
+                alt=""
+              />
+              <AvGroup>
+                <Label id="giftImageLabel" for="gift-item-image">
+                  Image
+                </Label>
+                <AvField onChange={event => onChange(event)} id="gift-item-image" data-cy="giftName" type="file" name="image1" />
               </AvGroup>
               <Button tag={Link} id="cancel-save" to="/gift-item" replace color="info">
                 <FontAwesomeIcon icon="arrow-left" />

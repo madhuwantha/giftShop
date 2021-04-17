@@ -44,6 +44,11 @@ const ClientHeader = (props: IHeaderProps) => {
                         {props.isAuthenticated ? (
                           <>
                             <li>
+                              <Button style={{ background: 'transparent', border: 'none' }} tag={Link} to={`${baseHref}/account/settings`}>
+                                <span className="menu-text">Account</span>
+                              </Button>
+                            </li>
+                            <li>
                               <Button style={{ background: 'transparent', border: 'none' }} tag={Link} to={`${baseHref}/logout`}>
                                 <span className="menu-text"> Sign out</span>
                               </Button>
@@ -56,6 +61,7 @@ const ClientHeader = (props: IHeaderProps) => {
                                 <span className="menu-text">Login</span>
                               </Button>
                             </li>
+
                             <li>
                               <Button style={{ background: 'transparent', border: 'none' }} tag={Link} to={`${baseHref}/account/register`}>
                                 <span className="menu-text">Register</span>

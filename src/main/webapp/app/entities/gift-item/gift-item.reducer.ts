@@ -108,6 +108,11 @@ export const getEntities: ICrudGetAllAction<IGiftItem> = (page, size, sort) => (
   payload: axios.get<IGiftItem>(`${apiUrl}?cacheBuster=${new Date().getTime()}`),
 });
 
+export const getEntitiesByCategory: ICrudGetAllAction<IGiftItem> = (category, size, sort) => ({
+  type: ACTION_TYPES.FETCH_GIFTITEM_LIST,
+  payload: axios.get<IGiftItem>(`${apiUrl}/category/${category}?cacheBuster=${new Date().getTime()}`),
+});
+
 export const getEntity: ICrudGetAction<IGiftItem> = id => {
   const requestUrl = `${apiUrl}/${id}`;
   return {
@@ -117,6 +122,18 @@ export const getEntity: ICrudGetAction<IGiftItem> = id => {
 };
 
 export const createEntity: ICrudPutAction<IGiftItem> = entity => async dispatch => {
+  const config = {
+    headers: {
+      'content-type': 'multipart/form-data',
+    },
+  };
+  console.log(entity);
+  let formData = new FormData();
+  formData.append('file', entity.image);
+  let res = await axios.post(`api/image/upload`, formData, config);
+  console.log(res);
+  entity.image = { id: res['data']['id'], imagePath: res['data']['imagepath'] };
+
   const result = await dispatch({
     type: ACTION_TYPES.CREATE_GIFTITEM,
     payload: axios.post(apiUrl, cleanEntity(entity)),
@@ -126,6 +143,17 @@ export const createEntity: ICrudPutAction<IGiftItem> = entity => async dispatch 
 };
 
 export const updateEntity: ICrudPutAction<IGiftItem> = entity => async dispatch => {
+  const config = {
+    headers: {
+      'content-type': 'multipart/form-data',
+    },
+  };
+  console.log(entity);
+  let formData = new FormData();
+  formData.append('file', entity.image);
+  let res = await axios.post(`api/image/upload`, formData, config);
+  console.log(res);
+  entity.image = { id: res['data']['id'], imagePath: res['data']['imagepath'] };
   const result = await dispatch({
     type: ACTION_TYPES.UPDATE_GIFTITEM,
     payload: axios.put(`${apiUrl}/${entity.id}`, cleanEntity(entity)),

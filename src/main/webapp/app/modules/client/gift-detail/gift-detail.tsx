@@ -28,78 +28,78 @@ const GiftDetail = (props: IGiftDetailProps) => {
                       <a className="w-100" href="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png">
                         <img
                           className="w-100"
-                          src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png"
+                          src={giftItem.image != undefined ? 'http://localhost:8080/public/image/' + giftItem.image.imagepath : ''}
                           alt="Product"
                         />
                       </a>
                     </div>
-                    <div className="swiper-slide">
-                      <a className="w-100" href="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png">
-                        <img
-                          className="w-100"
-                          src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png"
-                          alt="Product"
-                        />
-                      </a>
-                    </div>
-                    <div className="swiper-slide">
-                      <a className="w-100" href="assets/images/product/large-size/3.jpg">
-                        <img
-                          className="w-100"
-                          src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png"
-                          alt="Product"
-                        />
-                      </a>
-                    </div>
-                    <div className="swiper-slide">
-                      <a className="w-100" href="assets/images/product/large-size/4.jpg">
-                        <img
-                          className="w-100"
-                          src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png"
-                          alt="Product"
-                        />
-                      </a>
-                    </div>
-                    <div className="swiper-slide">
-                      <a className="w-100" href="assets/images/product/large-size/5.jpg">
-                        <img
-                          className="w-100"
-                          src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png"
-                          alt="Product"
-                        />
-                      </a>
-                    </div>
-                    <div className="swiper-slide">
-                      <a className="w-100" href="assets/images/product/large-size/6.jpg">
-                        <img
-                          className="w-100"
-                          src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png"
-                          alt="Product"
-                        />
-                      </a>
-                    </div>
+                    {/*<div className="swiper-slide">*/}
+                    {/*  <a className="w-100" href="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png">*/}
+                    {/*    <img*/}
+                    {/*      className="w-100"*/}
+                    {/*      src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png"*/}
+                    {/*      alt="Product"*/}
+                    {/*    />*/}
+                    {/*  </a>*/}
+                    {/*</div>*/}
+                    {/*<div className="swiper-slide">*/}
+                    {/*  <a className="w-100" href="assets/images/product/large-size/3.jpg">*/}
+                    {/*    <img*/}
+                    {/*      className="w-100"*/}
+                    {/*      src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png"*/}
+                    {/*      alt="Product"*/}
+                    {/*    />*/}
+                    {/*  </a>*/}
+                    {/*</div>*/}
+                    {/*<div className="swiper-slide">*/}
+                    {/*  <a className="w-100" href="assets/images/product/large-size/4.jpg">*/}
+                    {/*    <img*/}
+                    {/*      className="w-100"*/}
+                    {/*      src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png"*/}
+                    {/*      alt="Product"*/}
+                    {/*    />*/}
+                    {/*  </a>*/}
+                    {/*</div>*/}
+                    {/*<div className="swiper-slide">*/}
+                    {/*  <a className="w-100" href="assets/images/product/large-size/5.jpg">*/}
+                    {/*    <img*/}
+                    {/*      className="w-100"*/}
+                    {/*      src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png"*/}
+                    {/*      alt="Product"*/}
+                    {/*    />*/}
+                    {/*  </a>*/}
+                    {/*</div>*/}
+                    {/*<div className="swiper-slide">*/}
+                    {/*  <a className="w-100" href="assets/images/product/large-size/6.jpg">*/}
+                    {/*    <img*/}
+                    {/*      className="w-100"*/}
+                    {/*      src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png"*/}
+                    {/*      alt="Product"*/}
+                    {/*    />*/}
+                    {/*  </a>*/}
+                    {/*</div>*/}
                   </div>
                 </div>
                 <div className="single-product-thumb swiper-container gallery-thumbs">
                   <div className="swiper-wrapper">
-                    <div className="swiper-slide">
-                      <img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png" alt="Product" />
-                    </div>
-                    <div className="swiper-slide">
-                      <img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png" alt="Product" />
-                    </div>
-                    <div className="swiper-slide">
-                      <img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png" alt="Product" />
-                    </div>
-                    <div className="swiper-slide">
-                      <img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png" alt="Product" />
-                    </div>
-                    <div className="swiper-slide">
-                      <img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png" alt="Product" />
-                    </div>
-                    <div className="swiper-slide">
-                      <img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png" alt="Product" />
-                    </div>
+                    {/*<div className="swiper-slide">*/}
+                    {/*  <img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png" alt="Product" />*/}
+                    {/*</div>*/}
+                    {/*<div className="swiper-slide">*/}
+                    {/*  <img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png" alt="Product" />*/}
+                    {/*</div>*/}
+                    {/*<div className="swiper-slide">*/}
+                    {/*  <img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png" alt="Product" />*/}
+                    {/*</div>*/}
+                    {/*<div className="swiper-slide">*/}
+                    {/*  <img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png" alt="Product" />*/}
+                    {/*</div>*/}
+                    {/*<div className="swiper-slide">*/}
+                    {/*  <img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png" alt="Product" />*/}
+                    {/*</div>*/}
+                    {/*<div className="swiper-slide">*/}
+                    {/*  <img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png" alt="Product" />*/}
+                    {/*</div>*/}
                   </div>
                   <div className="swiper-button-next swiper-button-white">
                     <i className="lnr lnr-arrow-right"></i>
@@ -126,13 +126,13 @@ const GiftDetail = (props: IGiftDetailProps) => {
                 {/*</div>*/}
                 <p className="desc-content mb-5">{}</p>
                 <div className="quantity-with_btn mb-5">
-                  <div className="quantity">
-                    <div className="cart-plus-minus">
-                      <input className="cart-plus-minus-box" value="0" type="text" />
-                      {/*<div className="dec qtybutton">-</div>*/}
-                      {/*<div className="inc qtybutton">+</div>*/}
-                    </div>
-                  </div>
+                  {/*<div className="quantity">*/}
+                  {/*  <div className="cart-plus-minus">*/}
+                  {/*    <input className="cart-plus-minus-box" value="0" type="text" />*/}
+                  {/*    /!*<div className="dec qtybutton">-</div>*!/*/}
+                  {/*    /!*<div className="inc qtybutton">+</div>*!/*/}
+                  {/*  </div>*/}
+                  {/*</div>*/}
                   <div className="add-to_cart">
                     <Button onClick={() => onAddToCart()} className="btn product-cart button-icon flosun-button dark-btn">
                       <span className="menu-text"> Add to cart</span>
