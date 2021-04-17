@@ -103,14 +103,6 @@ const apiUrl = 'api/clients';
 
 // Actions
 
-export const getClientByUser: ICrudGetAction<IClient> = id => {
-  const requestUrl = `${apiUrl}/user/${id}`;
-  return {
-    type: ACTION_TYPES.FETCH_CLIENT,
-    payload: axios.get<IClient>(requestUrl),
-  };
-};
-
 export const getEntities: ICrudGetAllAction<IClient> = (page, size, sort) => ({
   type: ACTION_TYPES.FETCH_CLIENT_LIST,
   payload: axios.get<IClient>(`${apiUrl}?cacheBuster=${new Date().getTime()}`),

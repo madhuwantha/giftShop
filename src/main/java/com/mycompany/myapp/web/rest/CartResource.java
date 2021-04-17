@@ -4,15 +4,12 @@ import com.mycompany.myapp.domain.Cart;
 import com.mycompany.myapp.domain.GiftItem;
 import com.mycompany.myapp.domain.User;
 import com.mycompany.myapp.repository.CartRepository;
-import com.mycompany.myapp.repository.GiftItemRepository;
-import com.mycompany.myapp.repository.UserRepository;
 import com.mycompany.myapp.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,13 +35,9 @@ public class CartResource {
     private String applicationName;
 
     private final CartRepository cartRepository;
-    private final UserRepository userRepository;
-    private final GiftItemRepository giftItemRepository;
 
-    public CartResource(CartRepository cartRepository, UserRepository userRepository, GiftItemRepository giftItemRepository) {
+    public CartResource(CartRepository cartRepository) {
         this.cartRepository = cartRepository;
-        this.userRepository = userRepository;
-        this.giftItemRepository = giftItemRepository;
     }
 
     /**
@@ -227,7 +220,6 @@ public class CartResource {
         cart = cartRepository.save(cart);
         return ResponseEntity.ok(cart);
     }
-
     /**
      * {@code DELETE  /carts/:id} : delete the "id" cart.
      *

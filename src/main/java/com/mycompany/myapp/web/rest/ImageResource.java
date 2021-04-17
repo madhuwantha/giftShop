@@ -3,25 +3,17 @@ package com.mycompany.myapp.web.rest;
 import com.mycompany.myapp.domain.Image;
 import com.mycompany.myapp.repository.ImageRepository;
 import com.mycompany.myapp.web.rest.errors.BadRequestAlertException;
-import java.io.File;
-import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.nio.file.Files;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Random;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
@@ -34,8 +26,6 @@ import tech.jhipster.web.util.ResponseUtil;
 public class ImageResource {
 
     private final Logger log = LoggerFactory.getLogger(ImageResource.class);
-
-    private static final String UPLOAD_DIR = "D://upload//";
 
     private static final String ENTITY_NAME = "image";
 
@@ -184,7 +174,6 @@ public class ImageResource {
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
             .build();
     }
-
     @PostMapping("/image/upload")
     public ResponseEntity<Image> handleFileUpload(@RequestParam(value = "file") MultipartFile file) throws IOException, URISyntaxException {
         String fileExtension = getFileExtension(file);

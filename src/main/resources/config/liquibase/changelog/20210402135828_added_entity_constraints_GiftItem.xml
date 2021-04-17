@@ -8,7 +8,6 @@
     -->
     <changeSet id="20210402135828-2" author="jhipster">
 
-
         <addForeignKeyConstraint baseColumnNames="image_id"
                                  baseTableName="gift_item"
                                  constraintName="fk_gift_item__image_id"

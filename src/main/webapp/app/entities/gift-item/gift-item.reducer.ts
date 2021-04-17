@@ -1,11 +1,10 @@
-import axios, { AxiosRequestConfig } from 'axios';
+import axios from 'axios';
 import { ICrudGetAction, ICrudGetAllAction, ICrudPutAction, ICrudDeleteAction } from 'react-jhipster';
 
 import { cleanEntity } from 'app/shared/util/entity-utils';
 import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util';
 
 import { IGiftItem, defaultValue } from 'app/shared/model/gift-item.model';
-import { data } from 'autoprefixer';
 
 export const ACTION_TYPES = {
   FETCH_GIFTITEM_LIST: 'giftItem/FETCH_GIFTITEM_LIST',
@@ -14,7 +13,6 @@ export const ACTION_TYPES = {
   UPDATE_GIFTITEM: 'giftItem/UPDATE_GIFTITEM',
   PARTIAL_UPDATE_GIFTITEM: 'giftItem/PARTIAL_UPDATE_GIFTITEM',
   DELETE_GIFTITEM: 'giftItem/DELETE_GIFTITEM',
-  SELECT_GIFTITEM: 'giftItem/SELECT_GIFTITEM',
   RESET: 'giftItem/RESET',
 };
 
@@ -25,7 +23,6 @@ const initialState = {
   entity: defaultValue,
   updating: false,
   updateSuccess: false,
-  selectedGiftItem: defaultValue,
 };
 
 export type GiftItemState = Readonly<typeof initialState>;
@@ -93,11 +90,6 @@ export default (state: GiftItemState = initialState, action): GiftItemState => {
         updateSuccess: true,
         entity: {},
       };
-    case ACTION_TYPES.SELECT_GIFTITEM:
-      return {
-        ...state,
-        selectedGiftItem: action.payload,
-      };
     case ACTION_TYPES.RESET:
       return {
         ...initialState,
@@ -108,13 +100,6 @@ export default (state: GiftItemState = initialState, action): GiftItemState => {
 };
 
 const apiUrl = 'api/gift-items';
-
-export const selectGiftIem = (giftItem: IGiftItem) => {
-  return {
-    type: ACTION_TYPES.SELECT_GIFTITEM,
-    payload: giftItem,
-  };
-};
 
 // Actions
 
@@ -169,7 +154,6 @@ export const updateEntity: ICrudPutAction<IGiftItem> = entity => async dispatch 
   let res = await axios.post(`api/image/upload`, formData, config);
   console.log(res);
   entity.image = { id: res['data']['id'], imagePath: res['data']['imagepath'] };
-
   const result = await dispatch({
     type: ACTION_TYPES.UPDATE_GIFTITEM,
     payload: axios.put(`${apiUrl}/${entity.id}`, cleanEntity(entity)),

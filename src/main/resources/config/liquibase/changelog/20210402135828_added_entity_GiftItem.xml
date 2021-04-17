@@ -26,6 +26,9 @@
             <column name="avalible_quantity" type="integer">
                 <constraints nullable="true" />
             </column>
+            <column name="image_id" type="bigint">
+                <constraints nullable="true" unique="true" uniqueConstraintName="ux_gift_item__image_id" />
+            </column>
             <column name="category_id" type="bigint">
                 <constraints nullable="true" />
             </column>

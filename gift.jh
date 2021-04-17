@@ -56,6 +56,7 @@ relationship OneToOne {
   Client{user} to User,
   GiftOrder{user} to User,
   Cart{user} to User,
+  GiftItem{image} to Image,
 }
 
 relationship ManyToMany {
