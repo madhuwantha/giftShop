@@ -1,6 +1,14 @@
 # giftShop
 
-This application was generated using JHipster 7.0.0, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v7.0.0](https://www.jhipster.tech/documentation-archive/v7.0.0).
+First of all you need to running MySql server in your computer. ( XAMP is better)
+
+create a database as "giftShop"
+
+change the JDBC connection url in following files.
+
+pom.xml: line number 583
+app.yml : line number 10 and 11
+application-dev.yml: line number 35
 
 ## Development
 
