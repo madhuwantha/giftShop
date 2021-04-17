@@ -5,7 +5,7 @@ import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button } from 'reactstrap';
 import { IRootState } from 'app/shared/reducers';
 import { getEntities, selectCategory } from 'app/entities/category/category.reducer';
-import { getEntities as getGiftItems } from 'app/entities/gift-item/gift-item.reducer';
+import { getEntities as getGiftItems, getEntitiesByCategory } from 'app/entities/gift-item/gift-item.reducer';
 import GftItemCard from 'app/components/gft-item-card';
 import { addToCart } from 'app/entities/cart/cart.reducer';
 
@@ -21,7 +21,12 @@ export const ShopHome = (props: IShopHomeProps) => {
 
   const onCategoryClicked = (id: number) => {
     props.selectCategory(id);
+    props.getEntitiesByCategory(id);
   };
+
+  function onAllClick() {
+    props.getGiftItems();
+  }
 
   return (
     <div>
@@ -39,22 +44,12 @@ export const ShopHome = (props: IShopHomeProps) => {
               <aside className="sidebar_widget widget-mt">
                 <div className="widget_inner">
                   <div className="widget-list widget-mb-1">
-                    <h3 className="widget-title">Search</h3>
-                    <div className="search-box">
-                      <div className="input-group">
-                        <input type="text" className="form-control" placeholder="Search Our Store" aria-label="Search Our Store" />
-                        <div className="input-group-append">
-                          <button className="btn btn-outline-secondary" type="button">
-                            <i className="fa fa-search"></i>
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="widget-list widget-mb-1">
                     <h3 className="widget-title">Categories</h3>
                     <nav>
                       <ul className="mobile-menu p-0 m-0">
+                        <Button onClick={() => onAllClick()} style={{ background: 'transparent', color: 'black', border: 'none' }}>
+                          <span className="menu-text">All</span>
+                        </Button>
                         {categoryList.map(category => {
                           return (
                             <li key={category.id} onClick={() => onCategoryClicked(category.id)} className="menu-item-has-children">
@@ -66,14 +61,6 @@ export const ShopHome = (props: IShopHomeProps) => {
                         })}
                       </ul>
                     </nav>
-                  </div>
-                  <div className="widget-list widget-mb-1">
-                    <h3 className="widget-title">Price Filter</h3>
-                    <form action="#">
-                      <div id="slider-range"></div>
-                      <button type="submit">Filter</button>
-                      <input type="text" name="text" id="amount" />
-                    </form>
                   </div>
                 </div>
               </aside>
@@ -98,6 +85,7 @@ const mapDispatchToProps = {
   selectCategory,
   getGiftItems,
   addToCart,
+  getEntitiesByCategory,
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

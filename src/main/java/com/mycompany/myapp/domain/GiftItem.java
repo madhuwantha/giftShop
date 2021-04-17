@@ -43,6 +43,10 @@ public class GiftItem implements Serializable {
     @JsonIgnoreProperties(value = { "user", "giftItems" }, allowSetters = true)
     private Set<GiftOrder> orders = new HashSet<>();
 
+    @OneToOne
+    @JoinColumn(unique = true)
+    private Image image;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
         return id;
@@ -182,6 +186,19 @@ public class GiftItem implements Serializable {
             giftOrders.forEach(i -> i.addGiftItems(this));
         }
         this.orders = giftOrders;
+    }
+
+    public Image getImage() {
+        return this.image;
+    }
+
+    public GiftItem image(Image image) {
+        this.setImage(image);
+        return this;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

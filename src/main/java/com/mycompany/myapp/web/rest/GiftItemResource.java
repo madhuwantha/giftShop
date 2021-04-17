@@ -1,6 +1,8 @@
 package com.mycompany.myapp.web.rest;
 
+import com.mycompany.myapp.domain.Category;
 import com.mycompany.myapp.domain.GiftItem;
+import com.mycompany.myapp.repository.CategoryRepository;
 import com.mycompany.myapp.repository.GiftItemRepository;
 import com.mycompany.myapp.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
@@ -33,9 +35,11 @@ public class GiftItemResource {
     private String applicationName;
 
     private final GiftItemRepository giftItemRepository;
+    private final CategoryRepository categoryRepository;
 
-    public GiftItemResource(GiftItemRepository giftItemRepository) {
+    public GiftItemResource(GiftItemRepository giftItemRepository, CategoryRepository categoryRepository) {
         this.giftItemRepository = giftItemRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     /**
@@ -157,6 +161,13 @@ public class GiftItemResource {
     public List<GiftItem> getAllGiftItems() {
         log.debug("REST request to get all GiftItems");
         return giftItemRepository.findAll();
+    }
+
+    @GetMapping("/gift-items/category/{id}")
+    public List<GiftItem> getAllGiftItemsByCategory(@PathVariable Long id) {
+        log.debug("REST request to get all GiftItems by category with id {}", id);
+        Category category = categoryRepository.findById(id).get();
+        return giftItemRepository.findAllByCategory(category);
     }
 
     /**

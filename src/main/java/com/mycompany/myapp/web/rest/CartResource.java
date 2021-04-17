@@ -2,6 +2,7 @@ package com.mycompany.myapp.web.rest;
 
 import com.mycompany.myapp.domain.Cart;
 import com.mycompany.myapp.domain.GiftItem;
+import com.mycompany.myapp.domain.User;
 import com.mycompany.myapp.repository.CartRepository;
 import com.mycompany.myapp.repository.GiftItemRepository;
 import com.mycompany.myapp.repository.UserRepository;
@@ -171,11 +172,25 @@ public class CartResource {
     @GetMapping("/carts/user/{id}")
     public ResponseEntity<Cart> getCartByUser(@PathVariable Long id) {
         log.debug("REST request to get Cart by user : {}", id);
-        Cart cart = cartRepository.findByUser(userRepository.findById(id).get()).get(0);
+
+        User user = userRepository.findById(id).get();
+        List<Cart> carts = cartRepository.findByUser(user);
+        Cart cart = null;
+        if (carts.size() < 1) {
+            cart = new Cart();
+            cart.setUser(user);
+
+            cart = cartRepository.save(cart);
+        } else {
+            cart = carts.get(0);
+        }
+
+        //        Cart cart = cartRepository.findByUser(userRepository.findById(id).get()).get(0);
         Set<GiftItem> giftItems = cart.getGiftItems();
         cart.setGiftItems(giftItems);
 
-        cart.getGiftItems().forEach(giftItem -> cart.getGiftItems().add(giftItem));
+        Cart finalCart = cart;
+        cart.getGiftItems().forEach(giftItem -> finalCart.getGiftItems().add(giftItem));
 
         return ResponseEntity.ok(cart);
     }
@@ -194,7 +209,20 @@ public class CartResource {
     public ResponseEntity<Cart> addGiftItem(@PathVariable Long id, @PathVariable Long user_id) {
         log.debug("REST request to add Gift Item for cart by Gift Item id : {}", id);
         GiftItem giftItem = giftItemRepository.findById(id).get();
-        Cart cart = cartRepository.findByUser(userRepository.findById(user_id).get()).get(0);
+
+        User user = userRepository.findById(user_id).get();
+
+        List<Cart> carts = cartRepository.findByUser(user);
+        Cart cart = null;
+        if (carts.size() < 1) {
+            cart = new Cart();
+            cart.setUser(user);
+
+            cart = cartRepository.save(cart);
+        } else {
+            cart = carts.get(0);
+        }
+
         cart.getGiftItems().add(giftItem);
         cart = cartRepository.save(cart);
         return ResponseEntity.ok(cart);

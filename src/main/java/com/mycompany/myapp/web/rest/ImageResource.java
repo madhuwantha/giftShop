@@ -197,25 +197,13 @@ public class ImageResource {
         String UploadedDirectory = targetFile.getAbsolutePath();
 
         Image image = new Image();
-        image.setImagepath(filename);
+        image.setImagepath(filename + fileExtension);
         Image saved = imageRepository.save(image);
 
         return ResponseEntity
             .created(new URI("/api/images/upload" + saved.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, saved.getId().toString()))
             .body(saved);
-    }
-
-    @RequestMapping(value = "/image/upload/{galleryId}", method = RequestMethod.GET)
-    public ResponseEntity<byte[]> getFile(@PathVariable("galleryId") String galleryId) throws IOException {
-        byte[] bFile = Files.readAllBytes(new File(UPLOAD_DIR + galleryId + ".jpg").toPath());
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.IMAGE_JPEG);
-        headers.setContentLength(bFile.length);
-
-        ResponseEntity<byte[]> responseEntity = new ResponseEntity<byte[]>(bFile, headers, HttpStatus.OK);
-        return responseEntity;
     }
 
     private String getRandomString() {

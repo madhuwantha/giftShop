@@ -1,7 +1,11 @@
 package com.mycompany.myapp.web.rest;
 
 import com.mycompany.myapp.config.Constants;
+import com.mycompany.myapp.domain.Client;
+import com.mycompany.myapp.domain.Employee;
 import com.mycompany.myapp.domain.User;
+import com.mycompany.myapp.repository.ClientRepository;
+import com.mycompany.myapp.repository.EmployeeRepository;
 import com.mycompany.myapp.repository.UserRepository;
 import com.mycompany.myapp.security.AuthoritiesConstants;
 import com.mycompany.myapp.service.MailService;
@@ -75,10 +79,22 @@ public class UserResource {
 
     private final MailService mailService;
 
-    public UserResource(UserService userService, UserRepository userRepository, MailService mailService) {
+    private final ClientRepository clientRepository;
+
+    private final EmployeeRepository employeeRepository;
+
+    public UserResource(
+        UserService userService,
+        UserRepository userRepository,
+        MailService mailService,
+        ClientRepository clientRepository,
+        EmployeeRepository employeeRepository
+    ) {
         this.userService = userService;
         this.userRepository = userRepository;
         this.mailService = mailService;
+        this.clientRepository = clientRepository;
+        this.employeeRepository = employeeRepository;
     }
 
     /**
@@ -107,6 +123,27 @@ public class UserResource {
             throw new EmailAlreadyUsedException();
         } else {
             User newUser = userService.createUser(userDTO);
+            boolean isClient = newUser
+                .getAuthorities()
+                .stream()
+                .anyMatch(authority -> authority.getName().equals(AuthoritiesConstants.USER));
+            boolean isEmployee = newUser
+                .getAuthorities()
+                .stream()
+                .anyMatch(authority -> authority.getName().equals(AuthoritiesConstants.EMPLOYEE));
+
+            if (isClient) {
+                Client client = new Client();
+                client.setUser(newUser);
+                clientRepository.save(client);
+            }
+
+            if (isEmployee) {
+                Employee employee = new Employee();
+                employee.setUser(newUser);
+                employeeRepository.save(employee);
+            }
+
             mailService.sendCreationEmail(newUser);
             return ResponseEntity
                 .created(new URI("/api/admin/users/" + newUser.getLogin()))
